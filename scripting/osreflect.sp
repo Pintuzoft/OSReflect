@@ -37,8 +37,8 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     GetClientName ( attacker, attackerName, sizeof ( attackerName ) ) ;
     GetClientName ( victim, victimName, sizeof ( victimName ) ) ;
 
-    Format ( userMessage, sizeof(userMessage), " \x04[OSReflect]\x01: %s TeamDamaged %s [%d damage, %d armor]", attackerName, victimName, damage, armor );
-    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: %s TeamDamaged %s [%d damage, %d armor]", attackerName, victimName, damage, armor );
+    Format ( userMessage, sizeof(userMessage), " \x04[OSReflect]\x01: \x07%s\x01 TeamDamaged \x06%s \x08[%d damage, %d armor]", attackerName, victimName, damage, armor );
+    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TeamDamaged \x06%s \x08[%d damage, %d armor]", attackerName, victimName, damage, armor );
 
     PrintToAdmins ( adminMessage, attacker, victim );
     PrintToChat ( attacker, userMessage );
