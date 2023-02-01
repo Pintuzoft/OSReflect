@@ -37,10 +37,10 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     GetClientName ( attacker, attackerName, sizeof ( attackerName ) ) ;
     GetClientName ( victim, victimName, sizeof ( victimName ) ) ;
 
-    Format ( userMessage, sizeof(userMessage), " \x04[OSReflect]\x07: %s TeamDamaged %s [%d damage, %d armor]", attackerName, victimName, damage, armor );
-    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x07: %s TD %s [%d damage, %d armor]", attackerName, victimName, damage, armor );
+    Format ( userMessage, sizeof(userMessage), " \x04[OSReflect]\x01: %s TeamDamaged %s [%d damage, %d armor]", attackerName, victimName, damage, armor );
+    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: %s TeamDamaged %s [%d damage, %d armor]", attackerName, victimName, damage, armor );
 
-    PrintToAdmins ( adminMessage );
+    PrintToAdmins ( adminMessage, attacker, victim );
     PrintToChat ( attacker, userMessage );
     PrintToChat ( victim, userMessage );
 
@@ -50,9 +50,12 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
 }
 
 /* SEND MESSAGE TO ADMINS */
-public void PrintToAdmins ( const char[] message ) {
+public void PrintToAdmins ( const char[] message, int attacker, int victim ) {
     for ( int player = 1; player <= MaxClients; player++ ) {
-        if ( playerIsReal ( player ) && playerIsAdmin ( player ) ) {
+        if ( player != attacker &&
+             player != victim &&
+             playerIsReal ( player ) && 
+             playerIsAdmin ( player ) ) {
             PrintToChat ( player, message ) ;
         }
     }
