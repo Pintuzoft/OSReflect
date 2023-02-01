@@ -6,7 +6,7 @@
 public Plugin:myinfo = {
     name = "OSReflect",
     author = "Pintuz",
-    description = "A plugin to punish TK/TD",
+    description = "A plugin to punish TD",
     version = "0.01",
     url = "https://github.com/Pintuzoft/OSReflect"
 };
