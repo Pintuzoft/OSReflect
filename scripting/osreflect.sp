@@ -40,7 +40,7 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     GetClientName ( attacker, attackerName, sizeof ( attackerName ) ) ;
     GetClientName ( victim, victimName, sizeof ( victimName ) ) ;
 
-    Format ( attackerMessage, sizeof(attackerMessage), " \x07[OSReflect]: BE CAREFUL! You hurt your teammate: %s \x08[%d damage, %d armor]", victimName, damage, armor );
+    Format ( attackerMessage, sizeof(attackerMessage), " \x07[OSReflect]: BE CAREFUL! You hurt your teammate: \x04%s \x08[%d damage, %d armor]", victimName, damage, armor );
     Format ( victimMessage, sizeof(victimMessage), " \x04[OSReflect]\x01: You was damaged by teammate \x07%s \x08[%d damage, %d armor]", attackerName, damage, armor );
     Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TD \x06%s \x08[%d damage, %d armor]", attackerName, victimName, damage, armor );
 
