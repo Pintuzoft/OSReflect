@@ -77,7 +77,7 @@ public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadca
     Format ( victimMessage, sizeof(victimMessage), " \x04[OSReflect]\x01: You was killed by teammate \x07%s", attackerName );
     Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TK \x06%s", attackerName, victimName );
 
-    PrintToAdmins ( adminMessage, attacker, victim );
+    PrintToAdmins ( adminMessage, -1, -1 );
     PrintToChat ( attacker, attackerMessage );
     PrintToChat ( victim, victimMessage );
 
