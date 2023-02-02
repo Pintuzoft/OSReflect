@@ -30,9 +30,10 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     char attackerName[64];
     char victimName[64];
 
-    if (  attackerid == victimid ||
+    if (  isWarmup ( ) ||
+          attackerid == victimid ||
         ( damage == 0 && armor == 0) ||
-        ( GetClientTeam ( attacker ) != GetClientTeam ( victim ) ) ) {
+          GetClientTeam ( attacker ) != GetClientTeam ( victim ) ) {
         return;
     }
 
@@ -65,8 +66,9 @@ public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadca
     char attackerName[64];
     char victimName[64];
 
-    if (  attackerid == victimid ||
-        ( GetClientTeam ( attacker ) != GetClientTeam ( victim ) ) ) {
+    if (  isWarmup ( ) ||
+          attackerid == victimid ||
+          GetClientTeam ( attacker ) != GetClientTeam ( victim ) ) {
         return;
     }
 
@@ -106,4 +108,11 @@ public bool playerIsReal ( int player ) {
 /* RETURN TRUE IF PLAYER IS AN ADMIN */
 public bool playerIsAdmin ( int player ) {
     return ( GetUserFlagBits ( player ) > 0 );
+}
+/* isWarmup */
+public bool isWarmup ( ) {
+    if ( GameRules_GetProp ( "m_bWarmupPeriod" ) == 1 ) {
+        return true;
+    } 
+    return false;
 }
