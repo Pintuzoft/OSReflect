@@ -13,6 +13,7 @@ public Plugin:myinfo = {
 
 public void OnPluginStart ( ) {
     HookEvent ( "player_hurt" , Event_PlayerHurt ) ;
+    HookEvent ( "player_death" , Event_PlayerDeath ) ;
 }
 
 /* EVENTS */
@@ -23,7 +24,8 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     int victim = GetClientOfUserId ( victimid );
     int damage = GetEventInt ( event, "dmg_health" );
     int armor = GetEventInt ( event, "dmg_armor" );
-    char userMessage[256];
+    char attackerMessage[256];
+    char victimMessage[256];
     char adminMessage[256];
     char attackerName[64];
     char victimName[64];
@@ -37,12 +39,47 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     GetClientName ( attacker, attackerName, sizeof ( attackerName ) ) ;
     GetClientName ( victim, victimName, sizeof ( victimName ) ) ;
 
-    Format ( userMessage, sizeof(userMessage), " \x04[OSReflect]\x01: \x07%s\x01 TeamDamaged \x06%s \x08[%d damage, %d armor]", attackerName, victimName, damage, armor );
-    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TeamDamaged \x06%s \x08[%d damage, %d armor]", attackerName, victimName, damage, armor );
+    Format ( attackerMessage, sizeof(attackerMessage), " \x07[OSReflect]: BE CAREFUL! You hurt your teammate: %s \x08[%d damage, %d armor]", victimName, damage, armor );
+    Format ( victimMessage, sizeof(victimMessage), " \x04[OSReflect]\x01: You was damaged by teammate \x07%s \x08[%d damage, %d armor]", attackerName, damage, armor );
+    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TD \x06%s \x08[%d damage, %d armor]", attackerName, victimName, damage, armor );
 
     PrintToAdmins ( adminMessage, attacker, victim );
-    PrintToChat ( attacker, userMessage );
-    PrintToChat ( victim, userMessage );
+    PrintToChat ( attacker, attackerMessage );
+    PrintToChat ( victim, victimMessage );
+
+    /* REMOVE SAME AMOUNT OF DAMAGE FROM ATTACKER */
+    SlapPlayer ( attacker, damage, true );
+    SetEntProp ( attacker, Prop_Send, "m_ArmorValue", GetEntProp ( attacker, Prop_Send, "m_ArmorValue" ) - armor );
+}
+
+public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadcast ) {
+    int attackerid = GetEventInt ( event, "attacker" ) ;
+    int attacker = GetClientOfUserId ( attackerid );
+    int victimid = GetEventInt ( event, "userid" );
+    int victim = GetClientOfUserId ( victimid );
+    int damage = GetEventInt ( event, "dmg_health" );
+    int armor = GetEventInt ( event, "dmg_armor" );
+    char attackerMessage[256];
+    char victimMessage[256];
+    char adminMessage[256];
+    char attackerName[64];
+    char victimName[64];
+
+    if (  attackerid == victimid ||
+        ( GetClientTeam ( attacker ) != GetClientTeam ( victim ) ) ) {
+        return;
+    }
+
+    GetClientName ( attacker, attackerName, sizeof ( attackerName ) ) ;
+    GetClientName ( victim, victimName, sizeof ( victimName ) ) ;
+
+    Format ( attackerMessage, sizeof(attackerMessage), " \x07[OSReflect]: BE CAREFUL! You killed your teammate: %s", victimName );
+    Format ( victimMessage, sizeof(victimMessage), " \x04[OSReflect]\x01: You was killed by teammate \x07%s", attackerName );
+    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TK \x06%s", attackerName, victimName );
+
+    PrintToAdmins ( adminMessage, attacker, victim );
+    PrintToChat ( attacker, attackerMessage );
+    PrintToChat ( victim, victimMessage );
 
     /* REMOVE SAME AMOUNT OF DAMAGE FROM ATTACKER */
     SlapPlayer ( attacker, damage, true );
