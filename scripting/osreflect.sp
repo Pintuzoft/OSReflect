@@ -42,7 +42,7 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
 
     Format ( attackerMessage, sizeof(attackerMessage), " \x04[OSReflect]\x01: \x07WARN!\x01 TeamDamage: \x04%s \x08[%d dmg, %d arm]", victimName, damage, armor );
     Format ( victimMessage, sizeof(victimMessage), " \x04[OSReflect]\x01: TeamDamage by \x07%s \x08[%d dmg, %d arm]", attackerName, damage, armor );
-    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TeamDamaged \x06%s \x08[%d dmg, %d arm]", attackerName, victimName, damage, armor );
+    Format ( adminMessage, sizeof(adminMessage), " \x04[Admin]\x01: \x07%s\x01 TeamDamaged \x06%s \x08[%d dmg, %d arm]", attackerName, victimName, damage, armor );
 
     PrintToAdmins ( adminMessage, attacker, victim );
     PrintToChat ( attacker, attackerMessage );
@@ -77,7 +77,7 @@ public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadca
 
     Format ( attackerMessage, sizeof(attackerMessage), " \x07[OSReflect]\x01: \x07WARN!\x01 TeamKilling: \x04%s", victimName );
     Format ( victimMessage, sizeof(victimMessage), " \x04[OSReflect]\x01: TeamKilled by: \x07%s", attackerName );
-    Format ( adminMessage, sizeof(adminMessage), " \x04[AdminsOnly]\x01: \x07%s\x01 TeamKilled \x06%s", attackerName, victimName );
+    Format ( adminMessage, sizeof(adminMessage), " \x04[Admin]\x01: \x07%s\x01 TeamKilled \x06%s", attackerName, victimName );
 
     PrintToAdmins ( adminMessage, -1, -1 );
     PrintToChat ( attacker, attackerMessage );
