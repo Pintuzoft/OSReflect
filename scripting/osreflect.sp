@@ -50,7 +50,10 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
 
     /* REMOVE SAME AMOUNT OF DAMAGE FROM ATTACKER */
     SlapPlayer ( attacker, damage, true );
-    SetEntProp ( attacker, Prop_Send, "m_ArmorValue", GetEntProp ( attacker, Prop_Send, "m_ArmorValue" ) - armor );
+    int armorAttacker = GetEntProp ( attacker, Prop_Send, "m_ArmorValue" );
+    if ( armorAttacker > armor ) {
+        SetEntProp ( attacker, Prop_Send, "m_ArmorValue", GetEntProp ( attacker, Prop_Send, "m_ArmorValue" ) - armor );
+    }
 }
 
 public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadcast ) {
@@ -86,9 +89,7 @@ public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadca
     /* REMOVE SAME AMOUNT OF DAMAGE FROM ATTACKER */
     SlapPlayer ( attacker, damage, true );
     int armorAttacker = GetEntProp ( attacker, Prop_Send, "m_ArmorValue" );
-    if ( armor > armorAttacker ) {
-        SetEntProp ( attacker, Prop_Send, "m_ArmorValue", 0 );
-    } else {
+    if ( armorAttacker > armor ) {
         SetEntProp ( attacker, Prop_Send, "m_ArmorValue", GetEntProp ( attacker, Prop_Send, "m_ArmorValue" ) - armor );
     }
 }
