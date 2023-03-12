@@ -85,7 +85,12 @@ public void Event_PlayerDeath ( Event event, const char[] name, bool dontBroadca
 
     /* REMOVE SAME AMOUNT OF DAMAGE FROM ATTACKER */
     SlapPlayer ( attacker, damage, true );
-    SetEntProp ( attacker, Prop_Send, "m_ArmorValue", GetEntProp ( attacker, Prop_Send, "m_ArmorValue" ) - armor );
+    int armorAttacker = GetEntProp ( attacker, Prop_Send, "m_ArmorValue" );
+    if ( armor > armorAttacker ) {
+        SetEntProp ( attacker, Prop_Send, "m_ArmorValue", 0 );
+    } else {
+        SetEntProp ( attacker, Prop_Send, "m_ArmorValue", GetEntProp ( attacker, Prop_Send, "m_ArmorValue" ) - armor );
+    }
 }
 
 /* SEND MESSAGE TO ADMINS */
