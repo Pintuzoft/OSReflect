@@ -31,6 +31,7 @@ public void Event_PlayerHurt ( Event event, const char[] name, bool dontBroadcas
     char victimName[64];
 
     if (  isWarmup ( ) ||
+          ! IsPlayerAlive ( attacker ) ||
           attackerid == victimid ||
         ( damage == 0 && armor == 0) ||
           GetClientTeam ( attacker ) != GetClientTeam ( victim ) ) {
